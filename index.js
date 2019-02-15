@@ -4,6 +4,8 @@ import './index.css';
 import formData from './inputData.js';
 import axios from 'axios';
 import TableInterface from './table'
+
+//TravelForm component which renders the Travel form 
 class TravelForm extends React.Component {
     constructor(props){
         super(props);
@@ -26,6 +28,8 @@ class TravelForm extends React.Component {
             [key]:event.target.value
         })
     }
+    
+    //Fetching places around a certain location depicted by latitute and longitude
     fetchPlaces(lat,lon){
         axios.get('http://localhost:8081/fetch',{
             headers: {
@@ -43,6 +47,7 @@ class TravelForm extends React.Component {
                 response.data['lat']=lat;
                 response.data['lon']=lon;
                 console.log(response)
+                // As soon as the data becomes available the parent function is accessed via the props to trigger an update
                 this.props.setPlaceData(response)
             }})
             .catch(function (error) {
@@ -159,6 +164,7 @@ class TravelForm extends React.Component {
     }
 }
 
+// This is the parent component which internally uses <TravelForm> and <TravlInterface>
 class TravelSearchEnt extends React.Component{
     constructor(props){
         super(props);
@@ -170,9 +176,6 @@ class TravelSearchEnt extends React.Component{
         }
     }
     getGoogleMaps() {
-        // If we haven't already defined the promise, define it
-                // Add a global handler for when the API finishes loading
-
                 window.resolveGoogleMapsPromise = () => {
                     // Resolve the promise
                     this.setState({
@@ -196,7 +199,7 @@ class TravelSearchEnt extends React.Component{
         this.getGoogleMaps();
     }
 
-
+// This function is passed to the <TravelForm> component via props to trigger the the update whenever the paces data become available
     setPlaceData(response){
         this.setState({
             placesData:Object.assign({},response.data),
@@ -204,7 +207,6 @@ class TravelSearchEnt extends React.Component{
         })
     }
     render(){
-        //console.log(this.state.placesData);
         const props={
             APIkey:this.state.key,
             setPlaceData:(response)=>{this.setPlaceData(response)}
