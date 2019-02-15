@@ -3,8 +3,9 @@ import axios from "axios/index";
 import Photos_Details from "./PhotoDetails"
 import Reviews_Details from "./ReviewDetails"
 import Mymaps from "./dir_test"
-//import Mydirections from "./directions"
+
 //Top level : TableInterface
+// Internally uses two components <Details> and <DisplayTable>
 class TableInterface extends React.Component{
     constructor(props){
         console.log("table constructor")
@@ -15,6 +16,7 @@ class TableInterface extends React.Component{
             photo_key:1
         }
     }
+    // When any of the link on the table is clicked make an API call and fetch all the details(reviews and photos) and display them
     setIsClicked(id){
         var APIkey=this.props.APIkey;
         axios.get('http://localhost:8081/fetchReviews',{
@@ -61,6 +63,7 @@ class TableInterface extends React.Component{
 }
 
 //Level 1: Details, DisplayTable
+// Details internally use <Reviews_Details> and <Photos_Details>
 class Details extends React.Component{
     constructor(props){
         super(props);
@@ -119,6 +122,8 @@ class Details extends React.Component{
         )
     }
 }
+        
+//Display table internally uses <Mymaps>
 class DisplayTable extends React.Component{
     render(){
         var data = this.props.Tabledata;
@@ -140,6 +145,7 @@ class DisplayTable extends React.Component{
                         {items.map((item,index)=>{
                             return(<tr key={item.id}>
                                 <td><img src={item.icon} className="img-rounded"/></td>
+                                // When a link is clicked on the table corresponding to a place trigger the click action of parent via props
                                 <td onClick={()=>{this.props.onclick(item.place_id,item.name)}}>{item.name}</td>
                                 <td>
                                     <Mymaps name={item.vicinity} lat={item.geometry.location.lat} lon={item.geometry.location.lng} data={this.props.Tabledata} index={index}/>
@@ -157,7 +163,6 @@ class DisplayTable extends React.Component{
     }
 }
 
-//Level 2 under Details: Photo_Details, Review_Details
 
 
 export default TableInterface;
