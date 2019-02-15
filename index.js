@@ -165,7 +165,7 @@ class TravelSearchEnt extends React.Component{
         this.state={
             placesData:undefined,
             key_id:1,
-            key:"AIzaSyA43HNfa0YhCHKMUGFLnjcXFugKM8A9OFw",
+            key:"YOUR API KEY",
             map_loaded:false
         }
     }
@@ -185,7 +185,7 @@ class TravelSearchEnt extends React.Component{
 
                 // Load the Google Maps API
                 const script = document.createElement("script");
-                const API = 'AIzaSyA43HNfa0YhCHKMUGFLnjcXFugKM8A9OFw';
+                const API = 'YOUR API KEY';
                 script.src = `https://maps.googleapis.com/maps/api/js?key=${API}&callback=resolveGoogleMapsPromise`;
                 script.async = true;
                 script.defer = true;
